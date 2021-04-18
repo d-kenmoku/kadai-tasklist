@@ -8,9 +8,15 @@
     </head>
 
     <body>
+        
+        {{-- ナビゲーションバー 追加 新規登録ログイン--}}
+        @include('commons.navbar')
+
+        
+        {{--
         <header class="mb-4">
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-                {{-- トップページへのリンク --}}
+                {{-- トップページへのリンク コメント〆
                 <a class="navbar-brand" href="/">TaskList</a>
 
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
@@ -24,8 +30,10 @@
                 </div>
             </nav>
         </header>
+        --}}
 
         <div class="container">
+            {{-- エラ〜メッセージ --}}
             @include('commons.error_tasks')
             
             @yield('content')
