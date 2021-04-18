@@ -63,14 +63,13 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
+        if (\Auth::check()) { // 認証済みの場合を追加
         // バリデーション
-        
         $request->validate([
             'status' => 'required|max:10',
             'content' => 'required|max:255',
             ]);
-        
-        
+
         
         $task = new Task;
         $task->user_id = Auth::id();
@@ -78,6 +77,24 @@ class TasksController extends Controller
         $task->content = $request->content;
         $task->save();
         
+        }
+    
+    
+    
+    /*    // バリデーション
+        
+        $request->validate([
+            'status' => 'required|max:10',
+            'content' => 'required|max:255',
+            ]);
+
+        
+        $task = new Task;
+        $task->user_id = Auth::id();
+        $task->status = $request->status;
+        $task->content = $request->content;
+        $task->save();
+    */   
 
         
 
@@ -94,6 +111,7 @@ class TasksController extends Controller
      */
     public function show($id)
     {
+        
         //idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
         
@@ -110,11 +128,16 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
+        if (\Auth::check()) { // 認証済みの場合
         //idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
         
         //タスク編集ビューでそれを表示
         return view('tasks.edit', ['task' => $task,]);
+        
+        }
+        //トップページへリダイレクトさせる
+        return redirect('/');
    
     }
 
@@ -153,13 +176,15 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
+        if (\Auth::check()) { // 認証済みの場合
         //idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
         //タスクを削除
         $task->delete();
-        
+        }
         //トップページへリダイレクトさせる
         return redirect('/');
    
     }
+    
 }
